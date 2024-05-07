@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7413830712104454399}
   - component: {fileID: 4524517562014639339}
   m_Layer: 0
-  m_Name: sick particles
+  m_Name: chicken sick particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 7507309604878261176}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 6.27, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -665,7 +665,7 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 8.68039
+    angle: 14.4924
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
