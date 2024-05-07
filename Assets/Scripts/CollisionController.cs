@@ -13,6 +13,7 @@ public class CollisionController : MonoBehaviour
 	protected static int potions;
 	protected static int pollution = 5;
 	protected static int sickChickens = 5;
+	protected static int sickTrees = 5;
 
     public float pushPower = 2.0f;
 
@@ -24,19 +25,30 @@ public class CollisionController : MonoBehaviour
     }
     void Update(){
         if(scoreUI != null){
-            scoreUI.text = "Pollution: " + pollution.ToString() + "     Sick Chickens: " + sickChickens.ToString() + "\nPotions: " + potions.ToString() ;
+            scoreUI.text = "Pollution: " + pollution.ToString() + "     Sick Chickens: " + sickChickens.ToString() + "\nSick Trees: " + sickTrees + "     Potions: " + potions.ToString() ;
         }
     }
     // only for GameObjects with a mesh, box, or other collider except for character controller and wheel colliders
     void OnCollisionEnter(Collision other)
     {
-        if(changeColor == true && other.gameObject.tag == "Collectible"){
+        if(changeColor == true && other.gameObject.tag == "Tree"){
+            Renderer renderer = other.gameObject.GetComponent<Renderer>();
+			if (renderer.material != myMaterial) {
+				renderer.material = myMaterial;
+				Destroy(other.transform.GetChild(0).gameObject);
+				sickTrees--;
+			}
+        }
+		
+		if(changeColor == true && other.gameObject.tag == "Chicken"){
             Renderer renderer = other.transform.GetChild(4).gameObject.GetComponent<Renderer>();
 			if (renderer.material != myMaterial) {
 				renderer.material = myMaterial;
-				sickChickens--;
+				Destroy(other.transform.GetChild(5).gameObject);
+				sickTrees--;
 			}
         }
+		
         if(audioSource != null && !audioSource.isPlaying){
             audioSource.PlayOneShot(collisionAudio, 0.5F);
         }
