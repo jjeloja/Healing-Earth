@@ -11,21 +11,23 @@ public class CollisionController : MonoBehaviour
     public Text scoreUI;
 	public int score;
 	protected static int potions;
-	protected static int pollution = 5;
-	protected static int sickChickens = 5;
-	protected static int sickTrees = 5;
+	protected static int pollution = 19;
+	public static int sickChickens = 15;
+	protected static int sickTrees = 12;
 
     public float pushPower = 2.0f;
 
     public AudioClip collisionAudio;
     AudioSource audioSource;
-    void Start()
+    void Awake()
     {
         audioSource = GetComponent<AudioSource>();
     }
+
     void Update(){
+		
         if(scoreUI != null){
-            scoreUI.text = "Pollution: " + pollution.ToString() + "     Sick Chickens: " + sickChickens.ToString() + "\nSick Trees: " + sickTrees + "     Potions: " + potions.ToString() ;
+            scoreUI.text = "Pollution: " + pollution.ToString() + "     Sick Chickens: " + sickChickens+ "\nSick Trees: " + sickTrees + "     Potions: " + potions.ToString() ;
         }
     }
     // only for GameObjects with a mesh, box, or other collider except for character controller and wheel colliders
@@ -33,20 +35,18 @@ public class CollisionController : MonoBehaviour
     {
         if(changeColor == true && other.gameObject.tag == "Tree"){
             Renderer renderer = other.gameObject.GetComponent<Renderer>();
-			if (renderer.material != myMaterial) {
-				renderer.material = myMaterial;
-				Destroy(other.transform.GetChild(0).gameObject);
-				sickTrees--;
-			}
+			renderer.material = myMaterial;
+			Destroy(other.transform.GetChild(0).gameObject);
+			sickTrees--;				
+			other.gameObject.transform.tag = "healed";
         }
-		
-		if(changeColor == true && other.gameObject.tag == "Chicken"){
+
+		 if(changeColor == true && other.gameObject.tag == "SickChicken"){
             Renderer renderer = other.transform.GetChild(4).gameObject.GetComponent<Renderer>();
-			if (renderer.material != myMaterial) {
-				renderer.material = myMaterial;
-				Destroy(other.transform.GetChild(5).gameObject);
-				sickTrees--;
-			}
+			renderer.material = myMaterial;
+			Destroy(other.transform.GetChild(5).gameObject);
+			sickChickens--;				
+			other.gameObject.transform.tag = "healed";
         }
 		
         if(audioSource != null && !audioSource.isPlaying){
@@ -87,10 +87,10 @@ public class CollisionController : MonoBehaviour
         if(audioSource != null && !audioSource.isPlaying){
             audioSource.PlayOneShot(collisionAudio, 0.5F);
         }
-        if(destroyEnemy == true && hit.gameObject.tag == "Enemy" || destroyCollectibles == true && hit.gameObject.tag == "Pollution"){
+        if(hit.gameObject.tag == "Pollution"){
+			pollution--;
             Destroy(hit.gameObject);
 			potions += 5;
-			pollution--;
         }
     }
 }

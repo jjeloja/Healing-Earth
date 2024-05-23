@@ -8,6 +8,8 @@ TagManager:
   - Pollution
   - Tree
   - Chicken
+  - SickChicken
+  - healed
   layers:
   - Default
   - TransparentFX
