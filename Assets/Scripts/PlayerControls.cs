@@ -36,7 +36,63 @@ public class PlayerControls : MonoBehaviour
     {
         // When player presses Up Arrow, character moves forward.
         // When player presses Right or Left Arrow keys, character rotates direction.
-        if (playerOneControls == true){
+        if (playerTwoControls == true){
+			if (controller.isGrounded){
+                if (Input.GetKey(KeyCode.W)){
+                    anim.SetBool("Run Forward", true);
+                    running = true;
+                    moveDir = new Vector3 (0, 0, 1);
+                    moveDir *= runningSpeed;
+                    moveDir = transform.TransformDirection(moveDir);
+                    if(audioSource != null && !audioSource.isPlaying){
+                        audioSource.clip = runningSound;
+                        audioSource.Play();
+                    }
+                } else {
+                    anim.SetBool("Run Forward", false);
+                    moveDir = new Vector3 (0, 0, 0);
+                    running = false;
+                    if(audioSource != null && audioSource.isPlaying){
+                        audioSource.Stop();
+                    }
+                }
+
+                if (Input.GetKey(KeyCode.Space)){
+                    Debug.Log("JUMP");
+                    if (running){
+                        float slightMove = .5f;
+                        moveDir = new Vector3 (0, 1, slightMove);
+						running = false;
+                    } else {
+                        moveDir = new Vector3 (0, 1.2f, 0);
+                    }
+                    moveDir *= runningSpeed;
+                    moveDir = transform.TransformDirection(moveDir);
+                }
+
+                if (freeRotation == true){
+                    if (Input.GetKey(KeyCode.D)){
+                        rot += freeRotationSpeed * Time.deltaTime;
+                        transform.eulerAngles = new Vector3 (0, rot, 0);
+                    }
+                    if (Input.GetKey(KeyCode.A)){
+                        rot -= freeRotationSpeed * Time.deltaTime;
+                        transform.eulerAngles = new Vector3 (0, rot, 0);
+                    }
+                } else {
+                    if (Input.GetKey(KeyCode.D)){
+                        transform.Rotate(0, 90, 0, Space.World);
+                    }
+                    if (Input.GetKey(KeyCode.A)){
+                        transform.Rotate(0, -90, 0, Space.World);
+                    }
+                }
+            }
+            moveDir.y -= gravity * Time.deltaTime;
+            controller.Move(moveDir * Time.deltaTime);  
+        }
+		
+		if (playerOneControls == true){
             if (controller.isGrounded){
                 if (Input.GetKey(KeyCode.UpArrow)){
                     anim.SetBool("Run Forward", true);
@@ -60,10 +116,10 @@ public class PlayerControls : MonoBehaviour
                 if (Input.GetKey(KeyCode.Space)){
                     Debug.Log("JUMP");
                     if (running){
-                        float slightMove = 1f;
-                        moveDir = new Vector3 (0, 2, slightMove);
+                        float slightMove = .5f;
+                        moveDir = new Vector3 (0, 1, slightMove);
                     } else {
-                        moveDir = new Vector3 (0, 2, 0);
+                        moveDir = new Vector3 (0, 1.2f, 0);
                     }
                     moveDir *= runningSpeed;
                     moveDir = transform.TransformDirection(moveDir);
@@ -83,61 +139,6 @@ public class PlayerControls : MonoBehaviour
                         transform.Rotate(0, 90, 0, Space.World);
                     }
                     if (Input.GetKey(KeyCode.LeftArrow)){
-                        transform.Rotate(0, -90, 0, Space.World);
-                    }
-                }
-            }
-            moveDir.y -= gravity * Time.deltaTime;
-            controller.Move(moveDir * Time.deltaTime);
-        }
-
-        if (playerTwoControls == true){
-            if (controller.isGrounded){
-                if (Input.GetKey(KeyCode.W)){
-                    anim.SetBool("Run Forward", true);
-                    running = true;
-                    moveDir = new Vector3 (0, 0, 1);
-                    moveDir *= runningSpeed;
-                    moveDir = transform.TransformDirection(moveDir);
-                    if(audioSource != null && !audioSource.isPlaying){
-                        audioSource.clip = runningSound;
-                        audioSource.Play();
-                    }
-                } else {
-                    anim.SetBool("Run Forward", false);
-                    moveDir = new Vector3 (0, 0, 0);
-                    running = false;
-                    if(audioSource != null && audioSource.isPlaying){
-                        audioSource.Stop();
-                    }
-                }
-
-                if (Input.GetKey(KeyCode.Space)){
-                    Debug.Log("JUMP");
-                    if (running){
-                        float slightMove = .75f;
-                        moveDir = new Vector3 (0, 2, slightMove);
-                    } else {
-                        moveDir = new Vector3 (0, 2, 0);
-                    }
-                    moveDir *= runningSpeed;
-                    moveDir = transform.TransformDirection(moveDir);
-                }
-
-                if (freeRotation == true){
-                    if (Input.GetKey(KeyCode.D)){
-                        rot += freeRotationSpeed * Time.deltaTime;
-                        transform.eulerAngles = new Vector3 (0, rot, 0);
-                    }
-                    if (Input.GetKey(KeyCode.A)){
-                        rot -= freeRotationSpeed * Time.deltaTime;
-                        transform.eulerAngles = new Vector3 (0, rot, 0);
-                    }
-                } else {
-                    if (Input.GetKey(KeyCode.D)){
-                        transform.Rotate(0, 90, 0, Space.World);
-                    }
-                    if (Input.GetKey(KeyCode.A)){
                         transform.Rotate(0, -90, 0, Space.World);
                     }
                 }
