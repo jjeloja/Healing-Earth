@@ -11,7 +11,6 @@ public class CollisionController : MonoBehaviour
     public Text scoreUI;
 	public int score;
 	protected static int potions;
-	protected static int pollution = 19;
 	public static int sickChickens = 15;
 	protected static int sickTrees = 12;
 
@@ -27,7 +26,7 @@ public class CollisionController : MonoBehaviour
     void Update(){
 		
         if(scoreUI != null){
-            scoreUI.text = "Pollution: " + pollution.ToString() + "     Sick Chickens: " + sickChickens+ "\nSick Trees: " + sickTrees + "     Potions: " + potions.ToString() ;
+            scoreUI.text = "Sick Chickens: " + sickChickens+ "\nSick Trees: " + sickTrees + "\nPotions: " + potions.ToString() ;
         }
     }
     // only for GameObjects with a mesh, box, or other collider except for character controller and wheel colliders
@@ -88,9 +87,8 @@ public class CollisionController : MonoBehaviour
             audioSource.PlayOneShot(collisionAudio, 0.5F);
         }
         if(hit.gameObject.tag == "Pollution"){
-			pollution--;
             Destroy(hit.gameObject);
-			potions += 5;
+			potions += 1;
         }
     }
 }
