@@ -1,5 +1,4 @@
-# Final Project for Game Programming Class
-# Healing Earth
+# Final Project for Game Programming Class - Healing Earth
 
  1.	Game Title
 The title of the game is Healing Earth.
